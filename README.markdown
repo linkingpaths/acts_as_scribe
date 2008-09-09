@@ -1,14 +1,15 @@
 ActsAsScribe
-===============
+============
 A simple plugin that allows to keep history records of the users activities. Common uses could be user's wall, public timeline portlets, etc...
 
-Scribe (From Wikipedia, the free encyclopedia):
+> Scribe (From Wikipedia, the free encyclopedia):
 "A scribe was traditionally a person who could read and write. This usually indicated secretarial and administrative duties such as dictation and keeping business, judicial, and history records for kings, nobles, temples, and cities."
 
 Resources
-==
+=========
 
 Install
+-------
  
  * Run the following command:
  
@@ -22,7 +23,8 @@ Install
  
  `rake db:migrate`
  
-== Usage
+Usage
+-----
  
  * Make your ActiveRecord model acts as scribe.
 <pre>
@@ -31,10 +33,10 @@ Install
   end
 </pre>
  
-== Credits
 
 
-== More
+More
+-------
 
 [http://github.com/linkingpaths/acts\_as\_scribe](http://github.com/linkingpaths/acts_as_scribe)
 
