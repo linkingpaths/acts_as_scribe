@@ -7,7 +7,7 @@ class ActsAsScribeMigrationGenerator < Rails::Generator::Base
   end
 
   def file_name
-    "acts_as_videoclub_migration"
+    "acts_as_scribe_migration"
   end
 
 end
