@@ -32,6 +32,13 @@ Usage
     record_activity_of :user
   end
 </pre>
+
+ * If you want to record activities not related to any specific model just use `record_activities :activity` in your user model:
+<pre>
+  class User < ActiveRecord::Base
+    record_activities [:featured_on_home, :logged_in, :logged_out]
+  end
+</pre>
  
 
 
