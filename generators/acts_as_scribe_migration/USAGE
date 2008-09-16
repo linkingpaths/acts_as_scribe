@@ -1,9 +1,5 @@
 Description:
-    The migration generator creates a migration to add the activities table to your database
-
-    The generator takes no arguments.
-
-    The generator creates a migration in db/migrate.
+    The migration generator creates a migration to add the activities table to your database and takes no arguments.
 
 Example:
     ./script/generate acts_as_scribe_migration
