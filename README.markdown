@@ -29,7 +29,7 @@ Usage
  * Make your ActiveRecord model acts as scribe.
 <pre>
   class Comment < ActiveRecord::Base    
-    acts_as_scribe
+    record_activity_of :user
   end
 </pre>
  

@@ -9,7 +9,7 @@ module LinkingPaths
       module ClassMethods
         activity_options ||= {}
 
-        def acts_as_scribe(actor, options = {})
+        def record_activity_of(actor, options = {})
           include_scribe_instance_methods {
             has_many :activities, :as => :item, :dependent => :destroy
             after_create do |record|
@@ -21,10 +21,10 @@ module LinkingPaths
           self.activity_options.merge! :actor => actor
         end
 
-        def tracks_unlinked_activities(actions = [])
+        def record_activities(actions = [])
           include_scribe_instance_methods {
             has_many :activities
-            has_many :unlinked_activities, :class_name => "Activity", :conditions => { :item_type => nil, :item_id => nil }
+            has_many :activities_without_model, :class_name => "Activity", :conditions => { :item_type => nil, :item_id => nil }
           }
           self.activity_options.merge! :actions => actions
         end
@@ -51,7 +51,7 @@ module LinkingPaths
           activity.save
         end
 
-        def track_activity(action)
+        def record_activity(action)
           if activity_options[:actions] && activity_options[:actions].include?(action)
             activity = Activity.new
             activity.action = action.to_s
