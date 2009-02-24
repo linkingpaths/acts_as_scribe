@@ -14,7 +14,14 @@ module LinkingPaths
             has_many :activities, :as => :item, :dependent => :destroy
             after_create do |record|
               unless options[:if].kind_of?(Proc) and not options[:if].call(record)
-                record.create_activity_from_self 
+                user = record.send(activity_options[:actor])
+                Activity.report(user, :create, record)
+              end
+            end
+            after_destroy do |record|
+              unless options[:if].kind_of?(Proc) and not options[:if].call(record)
+                user = record.send(activity_options[:actor])
+                Activity.report(user, :destroy, record)
               end
             end
           }
@@ -22,13 +29,9 @@ module LinkingPaths
         end
 
         def record_activities(actions = [])
-          include_scribe_instance_methods {
-            has_many :activities
-            has_many :activities_without_model, :class_name => "Activity", :conditions => { :item_type => nil, :item_id => nil }
-          }
-          self.activity_options.merge! :actions => actions
+          raise "record_activities(#{actions.join ','}) has been deprecated. Use Activity.report(user, #{actions.first}), etc. instead."
         end
-        
+
         def include_scribe_instance_methods(&block)
           unless included_modules.include? InstanceMethods
             yield if block_given?
@@ -37,32 +40,13 @@ module LinkingPaths
             include InstanceMethods
           end
         end
-        
+
       end
 
       module InstanceMethods
-
-        def create_activity_from_self
-          activity = Activity.new
-          activity.item = self
-          activity.action = ActiveSupport::Inflector::underscore(self.class)
-          actor_id = self.send( activity_options[:actor].to_s + "_id" )
-          activity.user_id = actor_id
-          activity.save
-        end
-
         def record_activity(action)
-          if activity_options[:actions] && activity_options[:actions].include?(action)
-            activity = Activity.new
-            activity.action = action.to_s
-            activity.user_id = self.id
-            activity.save!
-          else
-            raise "The action #{action} can't be tracked."
-          end
-        end    
-
-
+            raise "record_activity has been deprecated. Use Activity.report(actor, action, item)."
+        end
       end
 
     end

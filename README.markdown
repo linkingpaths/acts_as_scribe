@@ -23,20 +23,47 @@ Install
  
  `rake db:migrate`
  
-Usage
------
+Record activities in your models
+---------------------------------------------
  
- * Make your ActiveRecord model acts as scribe.
 <pre>
   class Comment < ActiveRecord::Base    
     record_activity_of :user
   end
 </pre>
-
- * If you want to record activities not related to any specific model just use `record_activities :activity` in your user model:
+You can use any association that is related to an user:
 <pre>
-  class User < ActiveRecord::Base
-    record_activities [:featured_on_home, :logged_in, :logged_out]
+  class Post < ActiveRecord::Base
+    belongs_to :author, :class_name => "User"
+    record_activity_of :author
+  end
+</pre>
+
+This will register automatically a new activity when you create or destroy a new record. If you want control over the activities registration based on your model's state just use the :if option
+
+<pre>
+  class Post < ActiveRecord::Base
+    belongs_to :author, :class_name => "User"
+    record_activity_of :author, :if => Proc.new { |post| post.private == false }
+  end
+</pre>
+
+
+Record activities without related item
+--------------------------------------
+
+If you want to record activities not related to any specific model just use `Activity.report` in your code:
+<pre>
+  def grant_admin(user)
+    user.admin = true
+    Activity.report(current_user, :grant_admin, user)
+  end
+</pre>
+If the action is not related to any item, just don't use it.
+<pre>
+  def login
+    current_user = User.find(…)
+    Activity.report(current_user, :login)
   end
 </pre>
  

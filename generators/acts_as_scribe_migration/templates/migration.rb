@@ -8,9 +8,11 @@ class ActsAsScribeMigration < ActiveRecord::Migration
       t.string  :item_type
       t.timestamps
     end
+    add_index :activities, [:item_type, :item_id]
   end
 
   def self.down
+    remove_index :activities, [:item_type, :item_id]
     drop_table :activities
   end
 
