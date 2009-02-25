@@ -4,7 +4,7 @@ class Activity < ActiveRecord::Base
   }
 
   named_scope :by_action, lambda { |action|
-     { :conditions => { :action => action }}
+     { :conditions => { :action => action.to_s }}
   }
 
   named_scope :by_item, lambda { |item|
@@ -35,7 +35,7 @@ class Activity < ActiveRecord::Base
   def self.report(user, action, object=nil)
     returning Activity.new do |a|
       a.item = object if object
-      a.action = action
+      a.action = action.to_s
       a.user = user
       a.save!
     end
