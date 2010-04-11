@@ -49,6 +49,16 @@ describe "Activity" do
     end
   end
 
+  describe "when updating an instance of a tracked model" do
+    before do
+      @m = Factory(:membership).save
+      @act = Activity.last
+    end
+    it "should find the updated activity by the action" do
+      Activity.by_action(:update).should include(@act)
+    end
+  end
+
   describe "when destroying an instance of a tracked model" do
     before do
       Factory(:membership).destroy

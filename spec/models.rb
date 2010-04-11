@@ -7,7 +7,7 @@ end
 class Membership < ActiveRecord::Base
   belongs_to :user
   belongs_to :group
-  record_activity_of :user
+  record_activity_of :user, :actions => [:create, :update, :destroy]
 end
 
 class Group < ActiveRecord::Base
