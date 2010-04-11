@@ -48,6 +48,15 @@ This will register automatically a new activity when you create or destroy a new
   end
 </pre>
 
+If you record activities different than the default create and destroy you can specify the :actions option
+
+<pre>
+  class Post < ActiveRecord::Base
+    belongs_to :author, :class_name => "User"
+    record_activity_of :author, :actions => [:create, :update, :destroy]
+  end
+</pre>
+
 
 Record activities without related item
 --------------------------------------
